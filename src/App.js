@@ -10,11 +10,11 @@ import { auth } from './firebase';
 
 function App() {
 
-  const [{basket},dispatch] = useStateValue();
+  const [{basket,user},dispatch] = useStateValue();
 
   //UseEffect hook
   //code which runs on a given condition
-  useEffect(() => {
+  const unsubscribe = useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if(authUser){
         //loged in
@@ -30,6 +30,10 @@ function App() {
         })
       }
     })
+
+    return() => {
+      unsubscribe();
+    }
   }, []);
 
   return (
